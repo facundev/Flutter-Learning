@@ -1,11 +1,13 @@
+import 'package:crud_firebase/pages/edit_name_page.dart';
 import 'package:flutter/material.dart';
 
 // Importaciones de Firebase
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
-// Servicios
-import 'package:crud_firebase/services/firebase_service.dart';
+// Pages
+import 'package:crud_firebase/pages/add_name_page.dart';
+import 'package:crud_firebase/pages/home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,46 +23,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Material App',
-      home: Home(),
-    );
-  }
-}
-
-class Home extends StatefulWidget {
-  const Home({
-    super.key,
-  });
-
-  @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('Material App Bar'),
-        ),
-        body: FutureBuilder(
-            future: getPeople(),
-            builder: ((context, snapshot) {
-              if (snapshot.hasData) {
-                return ListView.builder(
-                  itemCount: // cantidad de iteraciones
-                      snapshot.data?.length, // si data existe, calcular length
-                  itemBuilder: (context, index) {
-                    return Text(snapshot.data?[index]['name']);
-                  },
-                );
-              } else {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            }))
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const Home(),
+        '/add': (context) => const AddNamePage(),
+        '/edit': (context) => const EditNamePage(),
+      },
     );
   }
 }
